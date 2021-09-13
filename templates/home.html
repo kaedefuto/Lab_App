@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<div class="bg-light p-3 p-sm-5 mb-4 border-top">
+    <a class="nav-link active" aria-current="page" href="{% url 'home' %}" style='float:left;'>ホーム</a>
+    <a class="nav-link" href="{% url 'signup' %}" style='float:left;'>新規登録</a>
+    <a class="nav-link" href="{% url 'login1' %}" style='float:left;'>ログイン</a>
+    <a class="nav-link" href="https://kaedefuto.pythonanywhere.com/home/">Todoアプリ</a>
+    <div class="container"></div>
+    <h1 class="display-4">Labアプリ</h1>
+    <p class="lead">初めて来られた方は「アカウントをお持ちでない方」をクリックしてください.</p>
+</div>
+{% endblock header %}
+
+{% block content %}
+<center>
+    <a href="{% url 'login1' %}" class="btn btn-success w-50 mb-1" role="button">ログイン</a>
+    <a href="{% url 'signup' %}" class="btn btn-primary w-50 mb-1" role="button">アカウントをお持ちでない方</a>
+    <a href="{% url 'guest' %}" class="btn btn-secondary w-50 mb-1" role="button">ゲストログイン</a>
+    <hr width="80%">
+    <a href="{% url 'login' %}" class="btn btn-dark w-50 mb-1" role="button">管理者ログイン</a>
+</center>
+{% endblock content %}

@@ -1,0 +1,25 @@
+{% extends 'base2.html' %}
+
+{% block header %}
+{% endblock header %}
+
+{% block content %}
+{% if object.author == user %}
+<center>
+    <form action='' method="POST">{% csrf_token %}
+        <input type="submit" style="width:50%;" value='削除します'>
+    </form>
+</center>
+{% endif %}
+<br>
+<p align="center">
+    {% if user.is_authenticated %}
+    <em>{{ user.username }}でログイン中</em><br />
+        <a href="{% url 'logout1' %}">ログアウト</a>
+    {% else %}
+    <em>
+    ログインは<a href="{% url 'login1' %}">こちら</a>
+    {% endif %}
+</p>
+</br>
+{% endblock content %}

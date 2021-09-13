@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<div class="bg-light p-3 p-sm-5 mb-4 border-top">
+    <div class="container"></div>
+    <h1 class="display-4">Todoアプリ</h1>
+</div>
+{% endblock header %}
+
+{% block content%}
+
+<div class="container">
+    <form class="form-signin" method='post'>{% csrf_token %}
+
+    <form>
+        <h1 class="h3 mb-3 font-weight-normal">ゲストログイン</h1>
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">ユーザ名</label>
+            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="guest" name="username_data" required autofocus>
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">パスワード</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" value="guest" name="password_data"required>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">ログイン</button>
+    </form>
+
+</div>
+{% endblock content %}

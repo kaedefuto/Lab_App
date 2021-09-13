@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<div class="bg-light p-3 p-sm-5 mb-4 border-top">
+    <div class="container"></div>
+    <h1 class="display-4">Todoアプリ</h1>
+</div>
+{% endblock header %}
+
+{% block content%}
+<style>
+    .sample {
+        position: relative;
+        /* 今の位置を基準 */
+        left: 60px;
+        /* 左から20px */
+    }
+</style>
+
+<form class=sample action='' method='POST'>
+    <h1 class="h3 mb-3 font-weight-normal">管理者ログイン</h1>
+    {% csrf_token %}
+
+    {{ form.as_p}}
+    <button type="submit" class="btn btn-primary">ログイン</button>
+</form>
+{% endblock content %}

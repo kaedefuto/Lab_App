@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<!--
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+
+        <div class="collapse navbar-collapse" id="Navber">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'list' %}"　>ホーム</a>
+                </li>
+                <form class="d-flex" method="get">
+                    <button type="submit" class="btn btn-default" name="query" value="new">作成日</button>
+                </form>
+                {% if user.username != "guest" %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'password_change1' %}">パスワードの変更</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'userdelete' user.username %}">退会</a>
+                </li>
+                {% endif %}
+                <!--
+                <li class="nav-item">
+                    <a class="nav-link" href="#">使い方</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href=" {% url 'logout1' %}">ログアウト</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">ログイン中</a>
+                </li>
+
+            </ul>
+            
+            <form class="d-flex" method="get">
+                <input type="search" class="form-control me-sm-2" name="query" value="{{ request.GET.query }}" placeholder="検索..." aria-label="検索...">
+                <button type="submit" class="btn btn-outline-success flex-shrink-0">検索</button>
+            </form>
+        
+        </div>
+    </div>
+</nav>
+-->
+
+<div class="bg-light p-3 p-sm-5 mb-4 border-top">
+    <a class="nav-link active" aria-current="page" href="{% url 'list' %}" style='float:left;'>ホーム</a>
+    {% if user.username != "guest" %}
+    <a class="nav-link" href="{% url 'password_change1' %}" style='float:left;'>パスワードの変更</a>
+    <a class="nav-link" href="{% url 'userdelete' user.username %}" style='float:left;'>退会</a>
+    {% endif %}
+    <a class="nav-link" href=" {% url 'logout1' %}" style='float:left;'>ログアウト</a>
+    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true" >ログイン中</a>
+    <div class="container"></div>
+        <h1 class="display-4">掲示板</h1>
+        <hr class="my-4"> 
+        <!--
+        <a class="btn btn-primary" href="{% url 'create' %}" role="button">カテゴリの追加</a>
+        -->
+    </div>
+</div>
+{% endblock header %}
+
+{% block content %}
+
+
+<div class='container'>
+    <div class="card w-120">
+    <div class="card">
+        <h5 class="card-header">スレッド一覧</h5>
+        <div class="card-body d-grid gap-2 col-6 w-100 ">
+            <a href="{% url 'create' %}" class="btn btn-secondary">新規作成</a>
+        </div>
+    </div>
+    </div>
+    <p></p>
+</div>
+
+<div class='container'>
+    {% for item in object_list %}
+    <div class="card">
+        <!--
+        <h5 class="card-header">{{ item.title }}</h5>
+        -->
+        <div class="card-body">
+            <p class="card-title" style='font-size: 15pt; float:left;'>{{item.id}}. </p>
+            <a href="{% url 'detail' item.pk %}" style="font-size: 15pt;">{{ item.title }}</a>
+            <h6 class="card-title">作成者:{{item.author}} 作成日:{{item.postdate}}</h6>
+            <a href="{% url 'detail' item.pk %}" class="btn btn-primary">詳細</a>
+            <a href="{% url 'update' item.pk %}" class="btn btn-success">編集</a>
+            <!--
+            <h6 class="card-title">　内容:{{item.content}}</h6>
+            -->
+            <a href="{% url 'delete' item.pk %}" class="btn btn-danger">削除</a>
+        </div>
+    </div>
+    <p></p>
+    {% endfor %}
+</div>
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center" >
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+        <li class="page-item active"><a class="page-link" href="#!">{{ num }}</a></li>
+        {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+        {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+<br>
+<p align="center">
+    {% if user.is_authenticated %}
+    <em>{{ user.username }}でログイン中</em><br />
+        <a href="{% url 'logout1' %}">ログアウト</a>
+    {% else %}
+    <em>
+    ログインは<a href="{% url 'login1' %}">こちら</a>
+    {% endif %}
+</p>
+</br>
+
+{% endblock content %}
+
