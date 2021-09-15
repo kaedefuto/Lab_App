@@ -55,7 +55,7 @@
     <a class="nav-link" href=" {% url 'logout1' %}" style='float:left;'>ログアウト</a>
     <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true" >ログイン中</a>
     <div class="container"></div>
-        <h1 class="display-4">掲示板</h1>
+        <h1 class="display-4">匿名掲示板</h1>
         <hr class="my-4"> 
         <!--
         <a class="btn btn-primary" href="{% url 'create' %}" role="button">カテゴリの追加</a>
@@ -86,8 +86,8 @@
         <h5 class="card-header">{{ item.title }}</h5>
         -->
         <div class="card-body">
-            <p class="card-title" style='font-size: 15pt; float:left;'>{{item.id}}. </p>
-            <a href="{% url 'detail' item.pk %}" style="font-size: 15pt;">{{ item.title }}</a>
+
+            <a href="{% url 'list1' item.pk %}" style="font-size: 15pt;">{{ item.title }}</a>
             <h6 class="card-title">作成者:{{item.author}} 作成日:{{item.postdate}}</h6>
             <a href="{% url 'detail' item.pk %}" class="btn btn-primary">詳細</a>
             <a href="{% url 'update' item.pk %}" class="btn btn-success">編集</a>

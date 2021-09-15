@@ -5,7 +5,7 @@ from .views import BoardList, BoardDetail, BoardCreate, BoardDelete, BoardUpdate
 
 urlpatterns = [
     path('list/', BoardList.as_view(), name='list'),
-    path('list1/', FormAndListView.as_view(), name='list1'),
+    path('list1/<int:pk>/', FormAndListView.as_view(), name='list1'),
     #path('list/', ListView, name='list'),
     path('detail/<int:pk>/', BoardDetail.as_view(), name='detail'),
     path('create/', BoardCreate.as_view(), name='create'),

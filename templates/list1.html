@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load widget_tweaks %}
 
 {% block header %}
 <!--
@@ -55,7 +56,7 @@
     <a class="nav-link" href=" {% url 'logout1' %}" style='float:left;'>ログアウト</a>
     <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true" >ログイン中</a>
     <div class="container"></div>
-        <h1 class="display-4">掲示板</h1>
+        <h1 class="display-4">匿名掲示板</h1>
         <hr class="my-4"> 
         <!--
         <a class="btn btn-primary" href="{% url 'create' %}" role="button">カテゴリの追加</a>
@@ -66,16 +67,32 @@
 
 {% block content %}
 
+<style>
+    .class-name {
+    width:70%;
+    height:80px;
+}
+</style>
 
-<form class=sample action="" method="POST" ></form>
+<form class=sample action="" method="POST" >
     <div class='container'>
         <div class="card">
             <div class="card-body">
+                {% csrf_token %}
+                <!--
+                {{form.as_p}}
+                -->
                 <p class="card-title" >表示名</p>
-                <p class="card-title" >{{form.title}}</p>
+                <p class="card-title" >{{form.human}}</p>
                 <p class="card-title">メッセージ</p>
-                <p class="card-title">{{form.content}}</p>
-                <input type="submit" value="書き込む">
+                <p class="card-title">{{form.content|add_class:'class-name'}}</p>
+                <!--
+                <p class="card-title">{{form.target}}</p>
+                -->
+                <p>
+                    {{form.target.as_hidden}}
+                </p>
+                <input class="btn btn-secondary" type="submit" value="書き込む">
             </div>
         </div>
     </div>
@@ -85,14 +102,15 @@
     <hr width="90%">
 </center>
 
-
 <div class='container'>
     {% for item in object_list %}
     <div class="card">
         <div class="card-body">
-            <p class="card-title" style='float:left;'><b>{{item.author}}　</b></p>
+            <p class="card-title" style='float:left;'>{{item.human}}　</p>
                 <p class="card-title" style="float:left; color: silver; ">{{item.postdate}}　</p>
-            <a href=" {% url 'logout1' %}" >返信</a>
+            <form method="get">
+                <button name="query" value="{{item.human}}" style="color: blue; font-size: 12px; ">返信</button>
+            </form>
             <p></p>
             <p class="card-title">{{item.content}}</p>
         </div>

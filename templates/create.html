@@ -27,25 +27,15 @@
         {{form.content.label}} : {{form.content}}
     </p>
     <p>
-        {{form.deadline.label}} : {{form.deadline}}
-    </p>
-    <p>
-        {{form.category.label}} : {{form.category}}
-    </p>
-    <p>
-        {{form.status.label}} : {{form.status}}
-    </p>
-    <p>
         {{form.author.as_hidden}}
     </p>
 
-    <!---
-    <p>
-        {{form.author.label}} : {{form.author}}
-    </p>
-    -->
     <input type="submit" value="作成する">
 </form>
+<center>
+    <a href="{% url 'list' %}" class="btn btn-primary">戻る</a>
+</center>
+
 <br>
 <p align="center">
     {% if user.is_authenticated %}

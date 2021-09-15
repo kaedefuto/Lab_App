@@ -4,13 +4,16 @@
 {% endblock header %}
 
 {% block content %}
-{% if object.author == user %}
 <center>
     <form action='' method="POST">{% csrf_token %}
         <input type="submit" style="width:50%;" value='削除します'>
     </form>
 </center>
-{% endif %}
+
+<br>
+<center>
+    <a href="{% url 'list' %}" class="btn btn-primary">戻る</a>
+</center>
 <br>
 <p align="center">
     {% if user.is_authenticated %}

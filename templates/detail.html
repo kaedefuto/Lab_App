@@ -4,21 +4,16 @@
 {% endblock header %}
 
 {% block content %}
-{% if object.author == user %}
 <div class='container'>
     <div class="card">
         <h5 class="card-header">{{ object.title }}</h5>
         <div class="card-body">
-            <!--
-            <h5 class="card-title">カテゴリ : {{object.category}}</h5>
-            -->
             <p class="card-text">{{ object.content | linebreaksbr }}</p>
-            <a href="{% url 'list' %}" class="btn btn-primary">一覧へ</a>
+            <a href="{% url 'list' %}" class="btn btn-primary">戻る</a>
             <a href="{% url 'update' object.pk %}" class="btn btn-success">編集する</a>
             <a href="{% url 'delete' object.pk %}" class="btn btn-danger">削除する</a>
         </div>
     </div>
-{% endif %}
 <br>
 <p align="center">
     {% if user.is_authenticated %}

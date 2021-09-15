@@ -27,16 +27,15 @@
         {{form.content.label}} : {{form.content}}
     </p>
     <p>
-        {{form.deadline.label}} : {{form.deadline}}
+        {{form.author.as_hidden}}
     </p>
-    <p>
-        {{form.category.label}} : {{form.category}}
-    </p>
-    <p>
-        {{form.status.label}} : {{form.status}}
-    </p>
+    
+
     <input type="submit" value='更新する'>
 </form>
+<center>
+    <a href="{% url 'list' %}" class="btn btn-primary">戻る</a>
+</center>
 {% endif %}
 <br>
 <p align="center">

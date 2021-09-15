@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import DetailView, CreateView, DeleteView, UpdateView, ListView
 from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView
 
-from .models import BoardModel
+from .models import BoardModel,ThreadModel
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
 from django.db import IntegrityError
@@ -22,6 +22,8 @@ from django.views import generic
 #from django.contrib.admin.widgets import AdminDateWidget
 #ユーザの削除
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+
+from django.urls import reverse
 
 
 def homeview(request):
@@ -84,7 +86,7 @@ def logoutview(request):
 class BoardList(LoginRequiredMixin, generic.ListView):
     template_name = 'list.html'
     paginate_by = 10
-    model = BoardModel
+    model = ThreadModel
 
 
     def get_queryset(self):
@@ -92,22 +94,19 @@ class BoardList(LoginRequiredMixin, generic.ListView):
         #ページング別の方法
         #print(q_word)
         #page = self.request.GET.get('page')
-
+        """
         if q_word == "new":
             object_list = BoardModel.objects.order_by("postdate").filter(
                 author=self.request.user)
         elif q_word == "new2":
             object_list = BoardModel.objects.order_by("deadline").filter(
                 author=self.request.user)
-        elif q_word:
-            object_list = BoardModel.objects.filter(
-                author=self.request.user | Q(title__icontains=q_word)
-                | Q(category__icontains=q_word))
+        """
+        if q_word:
+            object_list = BoardModel.objects.filter(author=self.request.user | Q(title__icontains=q_word)| Q(category__icontains=q_word))
         else:
-            #object_list2 = Folder.objects.all()
-            #object_list = BlogModel.objects.all()
-            object_list = BoardModel.objects.order_by("-postdate").filter(
-                author=self.request.user)
+            object_list = ThreadModel.objects.all().order_by("-postdate")
+            #object_list = BoardModel.objects.order_by("-postdate").filter(author=self.request.user)
             #paginator = Paginator(object_list, 2)
             #pages = paginator.get_page(page)
         return object_list
@@ -124,76 +123,86 @@ def ListView(request):
 
 class BoardDetail(DetailView):
     template_name = 'detail.html'
-    model = BoardModel
+    model = ThreadModel
 
 
 class BoardCreate(CreateView):
     template_name = 'create.html'
-    model = BoardModel
-    fields = ('title', 'content', 'deadline', 'category', 'status', 'author')
+    model = ThreadModel
+    fields = ('title', 'content','author')
     success_url = reverse_lazy('list')
 
-    """
+
     def get_initial(self):
         initial = super().get_initial()
         initial["author"] = self.request.user
         return initial
 
-    #widgets = {'deadline': AdminDateWidget()}
-    """
+
 
 
 class BoardList2(generic.ListView):
-    paginate_by = 10
     model = BoardModel
+    paginate_by = 10
+
+    def get_queryset(self):
+        code = self.kwargs['pk']
+        object_list=BoardModel.objects.order_by("-postdate").filter(target=code)
+        return object_list
+
 
 
 class BoardCreate2(CreateView):
     template_name = 'list1.html'
     model = BoardModel
-    fields = ('title', 'content', 'deadline', 'category', 'status', 'author')
-    success_url = reverse_lazy('list1')
+    fields = ('human', 'content', 'target')
+    paginate_by = 10
+    #success_url = reverse_lazy('list1/)
+
+    def get_initial(self, **kwargs):
+        q_word = self.request.GET.get('query')
+        initial = super().get_initial()
+        initial["target"] = self.kwargs.get('pk')
+
+        if q_word:
+            q_word = ">>"+q_word
+            initial["content"] = q_word
+        return initial
+
+    def get_success_url(self):
+        return reverse('list1', kwargs={'pk': self.kwargs['pk']})
 
 
-class FormAndListView(BoardCreate2,BoardList2):
+
+
+class FormAndListView(BoardCreate2, BoardList2):
 
     def get(self, request, *args, **kwargs):
-        formView = BoardCreate.get(self, request, *args, **kwargs)
-        listView = BoardList.get(self, request, *args, **kwargs)
+        formView = BoardCreate2.get(self, request, *args, **kwargs)
+        listView = BoardList2.get(self, request, *args, **kwargs)
         formData = formView.context_data['form']
         listData = listView.context_data['object_list']
-        context = {'form' : formData,'object_list' : listData}
+        page = listView.context_data['page_obj']
+        context = {'form' : formData,'object_list' : listData,'page_obj':page}
         return render(request, 'list1.html', context)
 
 
 class BoardDelete(DeleteView):
     template_name = 'delete.html'
-    model = BoardModel
+    model = ThreadModel
     success_url = reverse_lazy('list')
-
-
-"""
-class UserDelete(DeleteView):
-    template_name = 'userdelete.html'
-    model = User
-    success_url = reverse_lazy('home')
-"""
 
 
 class BoardUpdate(UpdateView):
     template_name = 'update.html'
-    model = BoardModel
-    fields = ('title', 'content', 'deadline', 'category', 'status')
+    model = ThreadModel
+    fields = ('title', 'author','content',)
     success_url = reverse_lazy('list')
 
-
-"""
-class BlogCreate2(CreateView):
-    template_name = 'create2.html'
-    model = Folder
-    fields = ('title',)
-    success_url = reverse_lazy('list')
-"""
+    def get_initial(self, **kwargs):
+        initial = super().get_initial()
+        initial["author"] = self.request.user
+        return initial
 
 
 class PasswordChange(PasswordChangeView):
