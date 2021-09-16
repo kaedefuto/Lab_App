@@ -5,7 +5,7 @@ from .views import BoardList, BoardDetail, BoardCreate, BoardDelete, BoardUpdate
 
 urlpatterns = [
     path('list/', BoardList.as_view(), name='list'),
-    path('list1/<int:pk>/', FormAndListView.as_view(), name='list1'),
+    path('list_view/<int:pk>/', FormAndListView.as_view(), name='list_view'),
     #path('list/', ListView, name='list'),
     path('detail/<int:pk>/', BoardDetail.as_view(), name='detail'),
     path('create/', BoardCreate.as_view(), name='create'),
@@ -13,12 +13,11 @@ urlpatterns = [
     #path('userdelete/<int:pk>', UserDelete.as_view(), name='userdelete'),
     path('update/<int:pk>', BoardUpdate.as_view(), name='update'),
     path('signup', signupview, name='signup'),
-    path('login1/', loginview, name='login1'),
-    path('logout1/', logoutview, name='logout1'),
+    path('login_original/', loginview, name='login_original'),
+    path('logout_original/', logoutview, name='logout_original'),
     path('home/', homeview, name='home'),
     path('guest/', guest, name='guest'),
-    path('password_change1/',PasswordChange.as_view(),name='password_change1'),
-    path('password_change_done1/',PasswordChangeDone.as_view(),name='password_change_done1'),
+    path('password_change_original/',PasswordChange.as_view(),name='password_change_original'),
+    path('password_change_done_original/',PasswordChangeDone.as_view(),name='password_change_done_original'),
     path('<str:username>/userdelete/', UserDeleteView.as_view(), name='userdelete'),
-    #path('create2/', BlogCreate2.as_view(), name='create2'),
 ]

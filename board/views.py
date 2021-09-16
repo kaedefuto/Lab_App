@@ -37,7 +37,7 @@ def signupview(request):
         password_data = request.POST['password_data']
         try:
             user = User.objects.create_user(username_data, '', password_data)
-            return redirect('login1')
+            return redirect('login_original')
         except IntegrityError:
             return render(request, 'signup.html',
                           {'error': 'このユーザーは既に登録されています'})
@@ -73,14 +73,13 @@ def loginview(request):
             login(request, user)
             return redirect('list')
         else:
-            return redirect('login1')
-    return render(request, 'login1.html')
+            return redirect('login_original')
+    return render(request, 'login_original.html')
 
 
 def logoutview(request):
     logout(request)
     return redirect('home')
-
 
 #"""
 class BoardList(LoginRequiredMixin, generic.ListView):
@@ -143,7 +142,7 @@ class BoardCreate(CreateView):
 
 class BoardList2(generic.ListView):
     model = BoardModel
-    paginate_by = 10
+    paginate_by = 20
 
     def get_queryset(self):
         code = self.kwargs['pk']
@@ -153,10 +152,10 @@ class BoardList2(generic.ListView):
 
 
 class BoardCreate2(CreateView):
-    template_name = 'list1.html'
+    template_name = 'list_view.html'
     model = BoardModel
     fields = ('human', 'content', 'target')
-    paginate_by = 10
+    paginate_by = 20
     #success_url = reverse_lazy('list1/)
 
     def get_initial(self, **kwargs):
@@ -170,7 +169,7 @@ class BoardCreate2(CreateView):
         return initial
 
     def get_success_url(self):
-        return reverse('list1', kwargs={'pk': self.kwargs['pk']})
+        return reverse('list_view', kwargs={'pk': self.kwargs['pk']})
 
 
 
@@ -184,7 +183,7 @@ class FormAndListView(BoardCreate2, BoardList2):
         listData = listView.context_data['object_list']
         page = listView.context_data['page_obj']
         context = {'form' : formData,'object_list' : listData,'page_obj':page}
-        return render(request, 'list1.html', context)
+        return render(request, 'list_view.html', context)
 
 
 class BoardDelete(DeleteView):
@@ -206,12 +205,12 @@ class BoardUpdate(UpdateView):
 
 
 class PasswordChange(PasswordChangeView):
-    template_name = 'password_change1.html'
-    success_url = reverse_lazy('password_change_done1')
+    template_name = 'password_change_original.html'
+    success_url = reverse_lazy('password_change_done_original')
 
 
 class PasswordChangeDone(PasswordChangeDoneView):
-    template_name = 'password_change_done1.html'
+    template_name = 'password_change_done_original.html'
 
 
 class OnlyYouMixin(UserPassesTestMixin):

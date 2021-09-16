@@ -2,58 +2,14 @@
 {% load widget_tweaks %}
 
 {% block header %}
-<!--
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-
-        <div class="collapse navbar-collapse" id="Navber">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'list' %}"　>ホーム</a>
-                </li>
-                <form class="d-flex" method="get">
-                    <button type="submit" class="btn btn-default" name="query" value="new">作成日</button>
-                </form>
-                {% if user.username != "guest" %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'password_change1' %}">パスワードの変更</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'userdelete' user.username %}">退会</a>
-                </li>
-                {% endif %}
-                <!--
-                <li class="nav-item">
-                    <a class="nav-link" href="#">使い方</a>
-                </li>
-                
-                <li class="nav-item">
-                    <a class="nav-link" href=" {% url 'logout1' %}">ログアウト</a>
-                </li>
-                
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">ログイン中</a>
-                </li>
-
-            </ul>
-            
-            <form class="d-flex" method="get">
-                <input type="search" class="form-control me-sm-2" name="query" value="{{ request.GET.query }}" placeholder="検索..." aria-label="検索...">
-                <button type="submit" class="btn btn-outline-success flex-shrink-0">検索</button>
-            </form>
-        
-        </div>
-    </div>
-</nav>
--->
 
 <div class="bg-light p-3 p-sm-5 mb-4 border-top">
     <a class="nav-link active" aria-current="page" href="{% url 'list' %}" style='float:left;'>ホーム</a>
     {% if user.username != "guest" %}
-    <a class="nav-link" href="{% url 'password_change1' %}" style='float:left;'>パスワードの変更</a>
+    <a class="nav-link" href="{% url 'password_change_original' %}" style='float:left;'>パスワードの変更</a>
     <a class="nav-link" href="{% url 'userdelete' user.username %}" style='float:left;'>退会</a>
     {% endif %}
-    <a class="nav-link" href=" {% url 'logout1' %}" style='float:left;'>ログアウト</a>
+    <a class="nav-link" href=" {% url 'logout_original' %}" style='float:left;'>ログアウト</a>
     <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true" >ログイン中</a>
     <div class="container"></div>
         <h1 class="display-4">匿名掲示板</h1>
@@ -112,7 +68,7 @@
                 <button name="query" value="{{item.human}}" style="color: blue; font-size: 12px; ">返信</button>
             </form>
             <p></p>
-            <p class="card-title">{{item.content}}</p>
+            <p class="card-title">{{item.content| linebreaksbr}}</p>
         </div>
     </div>
     <p></p>
@@ -149,10 +105,10 @@
 <p align="center">
     {% if user.is_authenticated %}
     <em>{{ user.username }}でログイン中</em><br />
-        <a href="{% url 'logout1' %}">ログアウト</a>
+        <a href="{% url 'logout_original' %}">ログアウト</a>
     {% else %}
     <em>
-    ログインは<a href="{% url 'login1' %}">こちら</a>
+    ログインは<a href="{% url 'login_original' %}">こちら</a>
     {% endif %}
 </p>
 </br>

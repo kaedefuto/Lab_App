@@ -8,40 +8,17 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-    
-            <div class="collapse navbar-collapse" id="Navber">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{% url 'list' %}" 　>ホーム</a>
-                    </li>
-                    <!--
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">使い方</a>
-                    </li>
-                    -->
-                    <li class="nav-item">
-                        <a class="nav-link" href=" {% url 'logout1' %}">ログアウト</a>
-                    </li>
-    
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">ログイン中</a>
-                    </li>
-    
-                </ul>
-                <form class="d-flex" method="get">
-                    <input type="search" class="form-control me-sm-2" name="query" value="{{ request.GET.query }}"
-                        placeholder="検索..." aria-label="検索...">
-                    <button type="submit" class="btn btn-outline-success flex-shrink-0">検索</button>
-                </form>
-            </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-fluid -->
-    </nav>
     <div class="bg-light p-3 p-sm-5 mb-4 border-top">
+        <a class="nav-link active" aria-current="page" href="{% url 'list' %}" style='float:left;'>ホーム</a>
+        {% if user.username != "guest" %}
+        <a class="nav-link" href="{% url 'password_change_original' %}" style='float:left;'>パスワードの変更</a>
+        <a class="nav-link" href="{% url 'userdelete' user.username %}" style='float:left;'>退会</a>
+        {% endif %}
+        <a class="nav-link" href=" {% url 'logout_original' %}" style='float:left;'>ログアウト</a>
+        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true" >ログイン中</a>
         <div class="container"></div>
         <h1 class="display-4">匿名掲示板</h1>
-        <hr class="my-4">
+        <hr class="my-4"> 
     </div>
     {% block header %}
     {% endblock header %}
