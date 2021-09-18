@@ -63,13 +63,14 @@
     {% for item in object_list %}
     <div class="card">
         <div class="card-body">
-            <p class="card-title" style='float:left;'>{{item.id}} {{item.human}}　</p>
+            <p class="card-title" style='float:left;'>{{ forloop.revcounter }} {{item.human}}　</p>
                 <p class="card-title" style="float:left; color: silver; ">{{item.postdate}}　</p>
             <form method="get">
-                <button name="query" value="{{item.id}} {{item.human}}" style="color: blue; font-size: 12px; float:left;">返信</button>
+                <button name="query" value="{{ forloop.revcounter }} {{item.human}}" style="color: blue; font-size: 12px; float:left;">返信</button>
             </form>
                 <p style="float:left;">　</p>
-                <a href="{% url 'evaluation' item.pk item.target.id %}" role="button" aria-pressed="true">いいね{{ item.useful_review }}</a>
+                <a href="{% url 'evaluation' item.pk item.target.id %}" role="button" aria-pressed="true" style='float:left;'>いいね!</a>
+                <p>　{{ item.useful_review }}</p>
             <p ></p>
             <p class="card-title">{{item.content| linebreaksbr}}</p>
         </div>
