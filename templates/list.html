@@ -27,10 +27,14 @@
 <div class='container'>
     <div class="card w-120">
     <div class="card">
+        {% if user.username != "guest" %}
         <h5 class="card-header">スレッド一覧</h5>
         <div class="card-body d-grid gap-2 col-6 w-100 ">
             <a href="{% url 'create' %}" class="btn btn-secondary">新規作成</a>
         </div>
+        {% else %}
+        <h5 class="card-header">スレッド一覧　＊ゲストログインでスレッドの作成はできません</h5>
+        {% endif %}
     </div>
     </div>
     <p></p>
@@ -46,12 +50,14 @@
 
             <a href="{% url 'list_view' item.pk %}" style="font-size: 15pt;">{{ item.title }}</a>
             <h6 class="card-title">作成者:{{item.author}} 作成日:{{item.postdate}}</h6>
+            {% if user.username != "guest" %}
             <a href="{% url 'detail' item.pk %}" class="btn btn-primary">詳細</a>
             <a href="{% url 'update' item.pk %}" class="btn btn-success">編集</a>
             <!--
             <h6 class="card-title">　内容:{{item.content}}</h6>
             -->
             <a href="{% url 'delete' item.pk %}" class="btn btn-danger">削除</a>
+            {% endif %}
         </div>
     </div>
     <p></p>

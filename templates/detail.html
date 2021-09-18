@@ -5,15 +5,18 @@
 
 {% block content %}
 <div class='container'>
+    {% if user.username != "guest" %}
     <div class="card">
         <h5 class="card-header">{{ object.title }}</h5>
         <div class="card-body">
             <p class="card-text">{{ object.content | linebreaksbr }}</p>
             <a href="{% url 'list' %}" class="btn btn-primary">戻る</a>
-            <a href="{% url 'update' object.pk %}" class="btn btn-success">編集する</a>
-            <a href="{% url 'delete' object.pk %}" class="btn btn-danger">削除する</a>
+            <a href="{% url 'update' object.pk %}" class="btn btn-success">編集</a>
+            <a href="{% url 'delete' object.pk %}" class="btn btn-danger">削除</a>
         </div>
     </div>
+    {% endif %}
+
 <br>
 <p align="center">
     {% if user.is_authenticated %}

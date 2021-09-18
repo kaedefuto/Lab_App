@@ -10,12 +10,11 @@
     <form action='' method="POST">{% csrf_token %}
         <input type="submit" style="width:50%;" value='削除します'>
     </form>
-    <br>
-        <p>
-            <a href="javascript:void(0);" onclick="window.history.back();" class="button is-text">キャンセル</a>
-        </p>
-    </br>
     </center>
+</center>
+<p></p>
+<center>
+    <a href="{% url 'list' %}" class="btn btn-primary">キャンセル</a>
 </center>
 
 <br>

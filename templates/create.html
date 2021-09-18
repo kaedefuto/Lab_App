@@ -1,37 +1,40 @@
 {% extends 'base2.html' %}
+{% load widget_tweaks %}
 
 {% block header %}
 
 {% endblock header %}
 
 {% block content %}
-<style>
-    .sample {
-        position: relative;
-        /* 今の位置を基準 */
-        left: 80px;
-        /* 左から20px */
-    }
 
+<style>
+    .class-name {
+        height: 80px;
+    }
 </style>
 
-<form class=sample action="" method="POST">
-    {% csrf_token %}
-    <!--
-    {{ form.as_p }}
-    -->
-    <p>
-        {{form.title.label}} : {{form.title}}
-    </p>
-    <p>
-        {{form.content.label}} : {{form.content}}
-    </p>
-    <p>
-        {{form.author.as_hidden}}
-    </p>
 
-    <input type="submit" value="作成する">
+<form class=sample action="" method="POST">
+    <div class='container'>
+        <div class="card">
+            {% if user.username != "guest" %}
+            <div class="card-body">
+                {% csrf_token %}
+                <p class="card-title">タイトル</p>
+                <p class="card-title">{{form.title}}</p>
+                <p class="card-title">内容</p>
+                <p class="card-title">{{form.content|add_class:'class-name'}}</p>
+                <p>
+                    {{form.author.as_hidden}}
+                </p>
+                <input type="submit" value="作成する">
+            </div>
+            {% endif %}
+        </div>
+    </div>
 </form>
+<p></p>
+
 <center>
     <a href="{% url 'list' %}" class="btn btn-primary">戻る</a>
 </center>

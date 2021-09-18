@@ -51,9 +51,7 @@ def guest(request):
     if request.method == 'POST':
         username_data = request.POST['username_data']
         password_data = request.POST['password_data']
-        user = authenticate(request,
-                            username=username_data,
-                            password=password_data)
+        user = authenticate(request,username=username_data,password=password_data)
         if user is not None:
             login(request, user)
             return redirect('list')
@@ -66,9 +64,7 @@ def loginview(request):
     if request.method == 'POST':
         username_data = request.POST['username_data']
         password_data = request.POST['password_data']
-        user = authenticate(request,
-                            username=username_data,
-                            password=password_data)
+        user = authenticate(request,username=username_data,password=password_data)
         if user is not None:
             login(request, user)
             return redirect('list')
@@ -85,31 +81,20 @@ def logoutview(request):
 class BoardList(LoginRequiredMixin, generic.ListView):
     template_name = 'list.html'
     paginate_by = 10
-    model = ThreadModel
+    model = ThreadModel.objects.all().order_by("-postdate")
+
 
 
     def get_queryset(self):
         q_word = self.request.GET.get('query')
-        #ページング別の方法
-        #print(q_word)
-        #page = self.request.GET.get('page')
-        """
-        if q_word == "new":
-            object_list = BoardModel.objects.order_by("postdate").filter(
-                author=self.request.user)
-        elif q_word == "new2":
-            object_list = BoardModel.objects.order_by("deadline").filter(
-                author=self.request.user)
-        """
-        if q_word:
-            object_list = BoardModel.objects.filter(author=self.request.user | Q(title__icontains=q_word)| Q(category__icontains=q_word))
-        else:
-            object_list = ThreadModel.objects.all().order_by("-postdate")
-            #object_list = BoardModel.objects.order_by("-postdate").filter(author=self.request.user)
-            #paginator = Paginator(object_list, 2)
-            #pages = paginator.get_page(page)
+        object_list = ThreadModel.objects.all().order_by("-postdate")
         return object_list
 
+    #モデルを二つ読む場合
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['tag_list'] = BoardModel.objects.all
+        return context
 
 
 """
@@ -186,6 +171,7 @@ class FormAndListView(BoardCreate2, BoardList2):
         return render(request, 'list_view.html', context)
 
 
+
 class BoardDelete(DeleteView):
     template_name = 'delete.html'
     model = ThreadModel
@@ -227,3 +213,18 @@ class UserDeleteView(OnlyYouMixin, DeleteView):
     model = User
     slug_field = 'username'
     slug_url_kwarg = 'username'
+
+
+def evaluationview(request, pk,pk2):
+    post = BoardModel.objects.get(pk=pk)
+    author_name = request.user.get_username() + str(request.user.id)
+    if author_name in post.useful_review_record:
+        post.useful_review = post.useful_review - 1
+        post.useful_review_record=post.useful_review_record.replace(author_name, "")
+        post.save()
+        return  redirect('list_view',pk=pk2)
+    else:
+        post.useful_review = post.useful_review + 1
+        post.useful_review_record = post.useful_review_record +" "+ author_name
+        post.save()
+        return redirect('list_view',pk=pk2)

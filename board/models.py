@@ -21,11 +21,12 @@ class ThreadModel(models.Model):
 
 class BoardModel(models.Model):
 
-
     target = models.ForeignKey(ThreadModel,blank=True, null=True,on_delete=models.CASCADE)
     human = models.CharField(max_length=100)
     content = models.TextField()
     postdate = models.DateTimeField(auto_now_add=True)
-    #user = models.ForeignKey(User, unique=False)
+    useful_review = models.IntegerField(null=True, blank=True, default=0)
+    useful_review_record = models.TextField()
+
     def __str__(self):
         return self.human

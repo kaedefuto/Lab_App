@@ -49,6 +49,7 @@
                     {{form.target.as_hidden}}
                 </p>
                 <input class="btn btn-secondary" type="submit" value="書き込む">
+                <a href="" class="btn btn-primary">更新</a>
             </div>
         </div>
     </div>
@@ -62,12 +63,14 @@
     {% for item in object_list %}
     <div class="card">
         <div class="card-body">
-            <p class="card-title" style='float:left;'>{{item.human}}　</p>
+            <p class="card-title" style='float:left;'>{{item.id}} {{item.human}}　</p>
                 <p class="card-title" style="float:left; color: silver; ">{{item.postdate}}　</p>
             <form method="get">
-                <button name="query" value="{{item.human}}" style="color: blue; font-size: 12px; ">返信</button>
+                <button name="query" value="{{item.id}} {{item.human}}" style="color: blue; font-size: 12px; float:left;">返信</button>
             </form>
-            <p></p>
+                <p style="float:left;">　</p>
+                <a href="{% url 'evaluation' item.pk item.target.id %}" role="button" aria-pressed="true">いいね{{ item.useful_review }}</a>
+            <p ></p>
             <p class="card-title">{{item.content| linebreaksbr}}</p>
         </div>
     </div>
