@@ -6,5 +6,5 @@ http://futokaede.pythonanywhere.com/home/
 
 ## 機能
 
-- 匿名掲示板
+- 匿名掲示板(完成)
 - 質問箱
