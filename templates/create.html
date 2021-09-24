@@ -20,6 +20,9 @@
         <div class="card">
             {% if user.username != "guest" %}
             <div class="card-body">
+                <h5 class="card-title">スレッドを作成</h5>
+                <p class="card-title">質問や議論を受け付けるためのページを作成します.</p>
+                <p></p>
                 {% csrf_token %}
                 <p class="card-title">タイトル</p>
                 <p class="card-title">{{form.title}}</p>

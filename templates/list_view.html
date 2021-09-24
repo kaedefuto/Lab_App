@@ -33,11 +33,11 @@
 <form class=sample action="" method="POST" >
     <div class='container'>
         <div class="card">
+            {% for item in tag_list %}
+                <h5 class="card-header">{{item.title}}</h5>
+            {% endfor %}
             <div class="card-body">
                 {% csrf_token %}
-                <!--
-                {{form.as_p}}
-                -->
                 <p class="card-title" >表示名</p>
                 <p class="card-title" >{{form.human}}</p>
                 <p class="card-title">メッセージ</p>

@@ -134,6 +134,13 @@ class BoardList2(generic.ListView):
         object_list=BoardModel.objects.order_by("-postdate").filter(target=code)
         return object_list
 
+    def get_context_data(self, *args, **kwargs):
+        code = self.kwargs['pk']
+        context = super().get_context_data(*args, **kwargs)
+        context['tag_list'] = ThreadModel.objects.filter(pk=code)
+        return context
+
+
 
 
 class BoardCreate2(CreateView):
@@ -166,8 +173,9 @@ class FormAndListView(BoardCreate2, BoardList2):
         listView = BoardList2.get(self, request, *args, **kwargs)
         formData = formView.context_data['form']
         listData = listView.context_data['object_list']
+        context = listView.context_data['tag_list']
         page = listView.context_data['page_obj']
-        context = {'form' : formData,'object_list' : listData,'page_obj':page}
+        context = {'form' : formData,'object_list' : listData, 'page_obj':page,'tag_list':context}
         return render(request, 'list_view.html', context)
 
 
