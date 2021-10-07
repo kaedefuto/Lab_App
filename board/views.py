@@ -226,14 +226,14 @@ class OnlyYouMixin(UserPassesTestMixin):
         user = self.request.user
         return user.username == self.kwargs['username'] or user.is_superuser
 
-"""
+
 class UserDeleteView(OnlyYouMixin, DeleteView):
     template_name = "userdelete.html"
     success_url = reverse_lazy("home")
     model = User
     slug_field = 'username'
     slug_url_kwarg = 'username'
-"""
+
 
 
 def evaluationview(request, pk,pk2):

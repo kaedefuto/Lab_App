@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import BoardList, BoardDetail, BoardCreate, BoardDelete, BoardUpdate, signupview, loginview, logoutview, homeview, guest, PasswordChange, PasswordChangeDone, FormAndListView, evaluationview, BoardDelete_list
+from .views import BoardList, BoardDetail, BoardCreate, BoardDelete, BoardUpdate, signupview, loginview, logoutview, homeview, guest, PasswordChange, PasswordChangeDone, FormAndListView, evaluationview, BoardDelete_list, UserDeleteView
 #UserDeleteView, 
 
 urlpatterns = [
@@ -19,7 +19,7 @@ urlpatterns = [
     path('guest/', guest, name='guest'),
     path('password_change_original/',PasswordChange.as_view(),name='password_change_original'),
     path('password_change_done_original/',PasswordChangeDone.as_view(),name='password_change_done_original'),
-    #path('<str:username>/userdelete/', UserDeleteView.as_view(), name='userdelete'),
+    path('<str:username>/userdelete/', UserDeleteView.as_view(), name='userdelete'),
     path('evaluation/<int:pk>/<int:pk2>', evaluationview, name='evaluation'),
     path('delete_list/<int:pk>', BoardDelete_list.as_view(), name='delete_list'),
 ]
