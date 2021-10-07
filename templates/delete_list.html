@@ -4,18 +4,17 @@
 {% endblock header %}
 
 {% block content %}
+{% if user.username != "guest" %}
 <center>
-    <h1 class="h3 mb-3 font-weight-normal">本当に{{ user.username }}を削除しますか？</h1>
     <form action='' method="POST">{% csrf_token %}
         <input type="submit" style="width:50%;" value='削除します'>
     </form>
-    </center>
 </center>
-<p></p>
+{% endif %}
+<br>
 <center>
-    <a href="{% url 'list' %}" class="btn btn-primary">キャンセル</a>
+    <a href="javascript:history.back()" class="btn btn-primary">戻る</a>
 </center>
-
 <br>
 <p align="center">
     {% if user.is_authenticated %}

@@ -11,8 +11,10 @@
         <div class="card-body">
             <p class="card-text">{{ object.content | linebreaksbr }}</p>
             <a href="{% url 'list' %}" class="btn btn-primary">戻る</a>
+            {% if object.author == user %}
             <a href="{% url 'update' object.pk %}" class="btn btn-success">編集</a>
             <a href="{% url 'delete' object.pk %}" class="btn btn-danger">削除</a>
+            {% endif %}
         </div>
     </div>
     {% endif %}

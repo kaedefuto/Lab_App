@@ -14,6 +14,7 @@
 <form class=sample action="" method="POST">
     <div class='container'>
         {% if user.username != "guest" %}
+        {% if object.author == user %}
         <div class="card">
             <div class="card-body">
                 {% csrf_token %}
@@ -27,6 +28,7 @@
                 <input type="submit" value="更新する">
             </div>
         </div>
+        {% endif %}
         {% endif %}
     </div>
 </form>

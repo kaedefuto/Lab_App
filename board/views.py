@@ -83,8 +83,6 @@ class BoardList(LoginRequiredMixin, generic.ListView):
     paginate_by = 10
     model = ThreadModel.objects.all().order_by("-postdate")
 
-
-
     def get_queryset(self):
         q_word = self.request.GET.get('query')
         object_list = ThreadModel.objects.all().order_by("-postdate")
@@ -131,13 +129,23 @@ class BoardList2(generic.ListView):
 
     def get_queryset(self):
         code = self.kwargs['pk']
-        object_list=BoardModel.objects.order_by("-postdate").filter(target=code)
+        q_word = self.request.GET.get('query2')
+
+        if q_word=="old":
+            object_list = BoardModel.objects.order_by("postdate").filter(target=code)
+        elif q_word=="new":
+            object_list = BoardModel.objects.order_by("-postdate").filter(target=code)
+        elif q_word=="good":
+            object_list = BoardModel.objects.order_by("-useful_review").filter(target=code)
+        else:
+            object_list = BoardModel.objects.order_by("-postdate").filter(target=code)
         return object_list
 
     def get_context_data(self, *args, **kwargs):
         code = self.kwargs['pk']
         context = super().get_context_data(*args, **kwargs)
         context['tag_list'] = ThreadModel.objects.filter(pk=code)
+        context["user"] = self.request.user
         return context
 
 
@@ -175,10 +183,14 @@ class FormAndListView(BoardCreate2, BoardList2):
         listData = listView.context_data['object_list']
         context = listView.context_data['tag_list']
         page = listView.context_data['page_obj']
-        context = {'form' : formData,'object_list' : listData, 'page_obj':page,'tag_list':context}
+        user = listView.context_data['user']
+        context = {'form' : formData,'object_list' : listData, 'page_obj':page,'tag_list':context, 'user':user}
         return render(request, 'list_view.html', context)
 
-
+class BoardDelete_list(DeleteView):
+    template_name = 'delete_list.html'
+    model = BoardModel
+    success_url = reverse_lazy('list')
 
 class BoardDelete(DeleteView):
     template_name = 'delete.html'
@@ -214,13 +226,14 @@ class OnlyYouMixin(UserPassesTestMixin):
         user = self.request.user
         return user.username == self.kwargs['username'] or user.is_superuser
 
-
+"""
 class UserDeleteView(OnlyYouMixin, DeleteView):
     template_name = "userdelete.html"
     success_url = reverse_lazy("home")
     model = User
     slug_field = 'username'
     slug_url_kwarg = 'username'
+"""
 
 
 def evaluationview(request, pk,pk2):

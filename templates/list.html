@@ -7,12 +7,14 @@
     <a class="nav-link active" aria-current="page" href="{% url 'list' %}" style='float:left;'>ホーム</a>
     {% if user.username != "guest" %}
     <a class="nav-link" href="{% url 'password_change_original' %}" style='float:left;'>パスワードの変更</a>
+    <!--
     <a class="nav-link" href="{% url 'userdelete' user.username %}" style='float:left;'>退会</a>
+    -->
     {% endif %}
     <a class="nav-link" href=" {% url 'logout_original' %}" style='float:left;'>ログアウト</a>
     <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true" >ログイン中</a>
     <div class="container"></div>
-        <h1 class="display-4">匿名掲示板</h1>
+        <h1 class="display-4">匿名掲示板（質問箱）</h1>
         <hr class="my-4"> 
         <!--
         <a class="btn btn-primary" href="{% url 'create' %}" role="button">カテゴリの追加</a>
@@ -52,11 +54,13 @@
             <h6 class="card-title">作成者:{{item.author}} 作成日:{{item.postdate}}</h6>
             {% if user.username != "guest" %}
             <a href="{% url 'detail' item.pk %}" class="btn btn-primary">詳細</a>
+            {% if item.author == user %}
             <a href="{% url 'update' item.pk %}" class="btn btn-success">編集</a>
             <!--
             <h6 class="card-title">　内容:{{item.content}}</h6>
             -->
             <a href="{% url 'delete' item.pk %}" class="btn btn-danger">削除</a>
+            {% endif %}
             {% endif %}
         </div>
     </div>
