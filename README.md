@@ -16,6 +16,7 @@ http://futokaede.pythonanywhere.com/home/
 
  - Python
  - HTML&CSS
+ - JavaScript（少しだけ）
 
 ## フレームワーク
 
