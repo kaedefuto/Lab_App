@@ -4,12 +4,15 @@
 {% endblock header %}
 
 {% block content %}
+{% if object.target.author == user %}
 {% if user.username != "guest" %}
 <center>
-    <form action='' method="POST">{% csrf_token %}
+    <form action='' method="POST">
+        {% csrf_token %}
         <input type="submit" style="width:50%;" value='削除します'>
     </form>
 </center>
+{% endif %}
 {% endif %}
 <br>
 <center>

@@ -15,7 +15,7 @@
     <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true" >ログイン中</a>
     <div class="container"></div>
         <h1 class="display-4">匿名掲示板（質問箱）</h1>
-        <hr class="my-4"> 
+        <hr class="my-4">
         <!--
         <a class="btn btn-primary" href="{% url 'create' %}" role="button">カテゴリの追加</a>
         -->
@@ -60,6 +60,10 @@
             <h6 class="card-title">　内容:{{item.content}}</h6>
             -->
             <a href="{% url 'delete' item.pk %}" class="btn btn-danger">削除</a>
+            {% else %}
+            <a href="{% url 'update' item.pk %}" class="btn btn-success disabled" aria-disabled="true">編集</a>
+            <a href="{% url 'delete' item.pk %}" class="btn btn-danger disabled" aria-disabled="true">削除</a>
+
             {% endif %}
             {% endif %}
         </div>
@@ -107,4 +111,3 @@
 </br>
 
 {% endblock content %}
-

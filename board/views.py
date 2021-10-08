@@ -192,6 +192,8 @@ class BoardDelete_list(DeleteView):
     model = BoardModel
     success_url = reverse_lazy('list')
 
+
+
 class BoardDelete(DeleteView):
     template_name = 'delete.html'
     model = ThreadModel
