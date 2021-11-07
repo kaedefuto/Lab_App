@@ -54,6 +54,9 @@
             <h6 class="card-title">作成者:{{item.author}} 作成日:{{item.postdate}}</h6>
             {% if user.username != "guest" %}
             <a href="{% url 'detail' item.pk %}" class="btn btn-primary">詳細</a>
+            {% else %}
+            <a href="{% url 'detail' item.pk %}" class="btn btn-primary disabled" aria-disabled="true">詳細</a>
+            {% endif %}
             {% if item.author == user %}
             <a href="{% url 'update' item.pk %}" class="btn btn-success">編集</a>
             <!--
@@ -64,7 +67,6 @@
             <a href="{% url 'update' item.pk %}" class="btn btn-success disabled" aria-disabled="true">編集</a>
             <a href="{% url 'delete' item.pk %}" class="btn btn-danger disabled" aria-disabled="true">削除</a>
 
-            {% endif %}
             {% endif %}
         </div>
     </div>
